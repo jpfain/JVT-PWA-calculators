@@ -1,10 +1,11 @@
-const CACHE_NAME = "jvt-cache-v1";
+const CACHE_NAME = "jvt-cache-v2";
 const CORE_ASSETS = [
   "./",
   "./index.html",
   "./manifest.json",
   "./icons/icon-192.png",
-  "./icons/icon-512.png"
+  "./icons/icon-512.png",
+  "./offline.html"
 ];
 
 self.addEventListener("install", (event) => {
@@ -23,13 +24,31 @@ self.addEventListener("activate", (event) => {
 
 self.addEventListener("fetch", (event) => {
   const { request } = event;
+  let url;
   try {
-    const url = new URL(request.url);
-    if (url.origin !== location.origin) return;
-  } catch (e) {
+    url = new URL(request.url);
+  } catch {
+    return;
+  }
+  if (url.origin !== location.origin) return;
+
+  // For navigations/HTML, try network first, fall back to offline page
+  const accept = request.headers.get("accept") || "";
+  const isHTML = request.mode === "navigate" || accept.includes("text/html");
+  if (isHTML) {
+    event.respondWith(
+      fetch(request)
+        .then((resp) => {
+          const copy = resp.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
+          return resp;
+        })
+        .catch(() => caches.match("./offline.html"))
+    );
     return;
   }
 
+  // For static assets, use cache-first
   event.respondWith(
     caches.match(request).then((cached) => {
       if (cached) return cached;
@@ -39,7 +58,7 @@ self.addEventListener("fetch", (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
           return resp;
         })
-        .catch(() => caches.match("./index.html"));
+        .catch(() => caches.match(request));
     })
   );
 });

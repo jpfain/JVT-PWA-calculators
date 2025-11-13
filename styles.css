@@ -1,0 +1,250 @@
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #eaf3ff, #f9fbff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      min-height: 100dvh;
+      transition: opacity 0.4s ease-in-out;
+    }
+
+    .hidden { display: none !important; }
+    .fade-out { opacity: 0; pointer-events: none; }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 34px;
+      box-shadow: 0 6px 22px rgba(2, 6, 23, 0.06);
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s ease;
+      position: relative;
+      z-index: 0;
+    }
+    .card.show { opacity: 1; }
+    .card.active { z-index: 10; }
+
+    h2 { margin: 0 0 20px; color: #2c3e50; font-size: 1.3rem; }
+
+    input, select, button {
+      font-size: 16px;
+      padding: 12px 14px;
+      margin: 6px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      box-sizing: border-box;
+    }
+
+    input { width: 100%; max-width: 320px; text-align: center; }
+
+    button {
+      min-width: 120px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 123, 255, 0.12);
+      transition: background 0.2s ease;
+    }
+    button:active { transform: translateY(1px); }
+
+    .nav-btn {
+      background: #6da9ff;
+      font-size: 15px;
+      padding: 10px 12px;
+      width: auto;
+      min-width: 0;
+    }
+    .nav-btn:hover { background: #5b96eb; }
+
+    #result {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0b1220;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 300ms, transform 300ms;
+    }
+    #result.show { opacity: 1; transform: translateY(0); }
+
+    .footer-watermark {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      font-size: 0.85rem;
+      color: rgba(15, 23, 42, 0.45);
+      font-style: italic;
+      pointer-events: none;
+    }
+    .footer-watermark.show { opacity: 1; }
+
+    .input-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .input-row input { flex: 1 1 60%; max-width: 220px; }
+    .input-row select { font-size: 1.1rem; padding: 8px 10px; }
+
+    /* Modal */
+    #infoModal {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.35);
+      padding: 18px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+      z-index: 99999;
+      pointer-events: none;
+    }
+    #infoModal.show {
+      opacity: 1;
+      visibility: visible;
+      transition-delay: 0s;
+      pointer-events: auto;
+    }
+    #infoModal .modal-card {
+      width: 100%;
+      max-width: 540px;
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      transform: scale(0.9);
+      transition: transform 0.25s ease;
+      position: relative;
+    }
+    #infoModal.show .modal-card { transform: scale(1); }
+    /* Position Close button neatly in top-right of modal */
+#infoModal .modal-card {
+  position: relative;
+}
+
+#infoModal .modal-card button {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+#infoModal .modal-card button:hover {
+  background: #005fcc;
+}
+
+
+    @media (prefers-color-scheme: dark) {
+      body { background: linear-gradient(135deg, #101214, #171a1d); color: #e6eef9; }
+      .card { background: #151718; }
+      input { background: #1f2326; border: 1px solid #2b2f33; color: #e6eef9; }
+      #infoModal .modal-card { background: #171a1d; color: #e6eef9; }
+      .footer-watermark { color: rgba(230,238,249,0.35); }
+    }
+
+/* Match BCE/CE Reset button with Age form styling */
+#newDateBtn,
+#reset-btn {
+  background: #fff !important;
+  color: #007bff !important;
+  border: 1px solid #d1d5db !important;
+  border-radius: 999px;
+  box-shadow: 0 8px 20px rgba(0, 123, 255, 0.12);
+}
+#newDateBtn:active,
+#reset-btn:active {
+  transform: translateY(1px);
+}
+
+/* Hidden by default; shown by JS when needed */
+#newDateBtn,
+#reset-btn { display: none; }
+
+/* Splash styles extracted from inline */
+.splash {
+  position: fixed;
+  inset: 0;
+  background: #007bff;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  z-index: 9999;
+  transition: opacity 1.5s ease;
+}
+.logo-box {
+  width: 110px;
+  height: 110px;
+  background: #fff;
+  border-radius: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #007bff;
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 22px;
+}
+
+/* Utilities */
+.mt-8 { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.start-opacity-0 { opacity: 0; }
+
+/* Ratio block styling extracted */
+.ratio {
+  margin-top: 12px;
+  font-size: 1em;
+  color: #555;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .4s, transform .4s;
+}
+
+.age-error { min-height: 18px; color: #b42318; font-size: 0.9rem; }
+.result-bce {
+  margin-top: 24px;
+  font-size: 1.1em;
+  color: #0b1220;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .4s, transform .4s;
+}
+
+/* Focus-visible polish */
+:focus { outline: none; }
+:focus-visible {
+  outline: 3px solid rgba(0,123,255,0.45);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
+button:focus-visible { border-radius: 999px; }
+select:focus-visible { border-radius: 10px; }
