@@ -166,10 +166,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
   on(byId('age-calc-btn'), 'click', (e) => { e.preventDefault(); convert(); });
   on(byId('reset-btn'), 'click', (e) => { e.preventDefault(); resetForm(); });
-  on(byId('open-bce-btn'), 'click', (e) => { e.preventDefault(); openBCE(); });
-  on(byId('back-age-btn'), 'click', (e) => { e.preventDefault(); openAge(); });
   on(byId('home-age-btn'), 'click', (e) => { e.preventDefault(); switchCards('home-card', 'age-card'); });
   on(byId('home-bce-btn'), 'click', (e) => { e.preventDefault(); switchCards('home-card', 'bce-card'); });
+  on(byId('age-home-btn'), 'click', (e) => { e.preventDefault(); switchCards('age-card', 'home-card'); });
+  on(byId('bce-home-btn'), 'click', (e) => { e.preventDefault(); switchCards('bce-card', 'home-card'); });
+  on(byId('age-home-top-btn'), 'click', (e) => { e.preventDefault(); switchCards('age-card', 'home-card'); });
+  on(byId('bce-home-top-btn'), 'click', (e) => { e.preventDefault(); switchCards('bce-card', 'home-card'); });
   on(byId('calcBtn'), 'click', (e) => { e.preventDefault(); calculateYears(); });
   on(byId('newDateBtn'), 'click', (e) => { e.preventDefault(); resetFormBCE(); });
   on(byId('more-info-link'), 'click', (e) => { e.preventDefault(); openModal(); });
