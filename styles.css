@@ -106,6 +106,12 @@
   line-height: 1.4;
 }
 
+.home-install-note {
+  font-size: 0.8rem;
+  color: #4b5563;
+  line-height: 1.4;
+}
+
     .input-row {
       display: flex;
       justify-content: center;

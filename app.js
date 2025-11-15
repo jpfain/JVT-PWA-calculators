@@ -191,6 +191,16 @@ window.addEventListener('DOMContentLoaded', () => {
   const byId = (id) => document.getElementById(id);
   const on = (el, ev, fn) => { if (el) el.addEventListener(ev, fn); };
 
+  // Hide the "How to install" hint if already running as an installed app
+  try {
+    const isStandalone = window.matchMedia && window.matchMedia('(display-mode: standalone)').matches;
+    const isIOSStandalone = window.navigator && window.navigator.standalone;
+    if (isStandalone || isIOSStandalone) {
+      const installHint = document.querySelector('.home-install-note');
+      if (installHint) installHint.style.display = 'none';
+    }
+  } catch {}
+
   on(byId('age-calc-btn'), 'click', (e) => { e.preventDefault(); convert(); });
   on(byId('reset-btn'), 'click', (e) => { e.preventDefault(); resetForm(); });
   on(byId('home-age-btn'), 'click', (e) => { e.preventDefault(); switchCards('home-card', 'age-card'); });
