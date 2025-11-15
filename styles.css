@@ -292,6 +292,12 @@
   transition: opacity .4s, transform .4s;
 }
 
+#output-area {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(148, 163, 184, 0.4);
+}
+
 .age-error { min-height: 18px; color: #b42318; font-size: 0.9rem; }
 .result-bce {
   margin-top: 24px;
