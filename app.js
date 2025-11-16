@@ -214,6 +214,23 @@ window.addEventListener('DOMContentLoaded', () => {
   on(byId('home-info-btn'), 'click', (e) => { e.preventDefault(); openModal(); });
   on(byId('modal-close-btn'), 'click', (e) => { e.preventDefault(); closeModal(); });
 
+  const presetYears = byId('presetYears');
+  if (presetYears) {
+    presetYears.addEventListener('change', (e) => {
+      const select = e.target;
+      const value = select.value;
+      if (!value) return;
+      const selected = select.options[select.selectedIndex];
+      const era = selected.getAttribute('data-era') || 'CE';
+      const yearInput = byId('yearInput');
+      const eraInput = byId('eraInput');
+      if (yearInput) yearInput.value = value;
+      if (eraInput) eraInput.value = era;
+      // Immediately perform the calculation so the user sees a result
+      calculateYears();
+    });
+  }
+
   // Install button (Chrome/Edge only)
   let deferredPrompt = null;
   const installBtn = byId('install-btn');
