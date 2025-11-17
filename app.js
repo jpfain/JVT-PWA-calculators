@@ -221,6 +221,51 @@ window.addEventListener('DOMContentLoaded', () => {
   on(byId('home-info-btn'), 'click', (e) => { e.preventDefault(); openModal(); });
   on(byId('modal-close-btn'), 'click', (e) => { e.preventDefault(); closeModal(); });
 
+  // Share this app (native share with clipboard fallback)
+  const shareBtn = byId('home-share-btn');
+  const shareStatus = byId('home-share-status');
+  const clearShareStatusSoon = () => {
+    if (!shareStatus) return;
+    setTimeout(() => { shareStatus.textContent = ''; }, 2500);
+  };
+  on(shareBtn, 'click', async (e) => {
+    e.preventDefault();
+    if (!shareStatus) return;
+    const shareUrl = window.location.href;
+    const shareText = "Take a fresh look at time from Jehovah's perspective with this simple web app.";
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: "Jehovah’s View of Time",
+          text: shareText,
+          url: shareUrl
+        });
+        shareStatus.textContent = 'Share sheet opened.';
+        clearShareStatusSoon();
+        return;
+      }
+    } catch (err) {
+      // If the user cancels or share fails, fall through to clipboard attempt
+    }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+        shareStatus.textContent = 'Link copied to clipboard.';
+      } else {
+        const tmp = document.createElement('input');
+        tmp.value = shareUrl;
+        document.body.appendChild(tmp);
+        tmp.select();
+        document.execCommand('copy');
+        document.body.removeChild(tmp);
+        shareStatus.textContent = 'Link copied to clipboard.';
+      }
+    } catch (err2) {
+      shareStatus.textContent = 'Sharing not available on this device.';
+    }
+    clearShareStatusSoon();
+  });
+
   const presetYears = byId('presetYears');
   if (presetYears) {
     presetYears.addEventListener('change', (e) => {

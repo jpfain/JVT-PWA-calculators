@@ -68,6 +68,17 @@
     }
     .nav-btn:hover { background: #5b96eb; }
 
+    .nav-btn.nav-btn-secondary {
+      background: #e5efff;
+      color: #1d4ed8;
+      box-shadow: none;
+      font-size: 14px;
+      padding: 8px 14px;
+    }
+    .nav-btn.nav-btn-secondary:hover {
+      background: #d7e5ff;
+    }
+
     .nav-btn .btn-icon {
       margin-right: 8px;
       font-size: 1.1rem;
