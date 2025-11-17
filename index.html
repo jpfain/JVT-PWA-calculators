@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Jehovah’s View of Time</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <meta name="description" content="Calculate your age and historical dates in Jehovah’s view of time, with BCE/CE conversion and a polished PWA experience.">
+  <meta property="og:title" content="Jehovah’s View of Time">
+  <meta property="og:description" content="Calculate your age and historical dates in Jehovah’s view of time.">
+  <meta property="og:image" content="icons/icon-512.png">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Jehovah’s View of Time">
+  <meta name="twitter:description" content="Calculate your age and historical dates in Jehovah’s view of time.">
+  <meta name="twitter:image" content="icons/icon-512.png">
+
+  <!-- Progressive Web App setup -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Jehovah’s View of Time">
+  <meta name="theme-color" content="#007bff">
+  <meta name="background-color" content="#007bff">
+
+  <!-- App Icons -->
+  <link rel="apple-touch-icon" href="icons/apple-icon-180.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="icons/apple-icon-167.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152.png">
+  <link rel="icon" sizes="192x192" href="icons/icon-192.png">
+  <link rel="icon" sizes="512x512" href="icons/icon-512.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+  <link rel="preload" href="styles.css" as="style" onload="this.rel='stylesheet'">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- Splash -->
+  <div id="splash" class="splash">
+    <div class="logo-box">⏳</div>
+    <h1>Jehovah’s View of Time</h1>
+  </div>
+
+  <!-- Home Menu -->
+  <div class="card active" id="home-card">
+    <h2>Jehovah's View of Time</h2>
+    <p class="mt-8">Choose a tool below to explore time from Jehovah's perspective.</p>
+    <div class="mt-16">
+      <button class="nav-btn" id="home-age-btn"><span class="btn-icon">⏳</span><span>Your Age in Jehovah's Eyes</span></button>
+    </div>
+    <div class="mt-8">
+      <button class="nav-btn" id="home-bce-btn"><span class="btn-icon">📅</span><span>BCE/CE years calculator</span></button>
+    </div>
+    <div class="mt-8">
+      <button class="nav-btn" id="home-info-btn"><span class="btn-icon">📖</span><span>Time Explained</span></button>
+    </div>
+    <div class="mt-8">
+      <button class="nav-btn" id="home-about-btn"><span class="btn-icon">ℹ️</span><span>About this app</span></button>
+    </div>
+    <p class="home-privacy-note mt-16">This app runs entirely in your browser. Your inputs are used only for these calculations and are not collected or stored on any server.</p>
+    <p class="home-install-note mt-8">To save this as an app on your iPhone home screen, open this site in Safari, tap the share icon, and choose <strong>Add to Home Screen</strong>.</p>
+  </div>
+
+  <!-- Age Calculator -->
+  <div class="card hidden start-opacity-0" id="age-card">
+    <h2>How old are you in Jehovah's eyes?</h2>
+    <input id="age" inputmode="decimal" pattern="[0-9,.]*" placeholder="Enter your age" step="0.01" min="0" aria-describedby="age-help age-error" aria-label="Age">
+    <div id="age-help" class="help-text">Enter your age in years (decimals allowed).</div>
+    <div id="age-error" class="age-error" aria-live="polite"></div>
+    <div class="mt-8">
+      <button id="age-calc-btn">Calculate</button>
+      <button id="reset-btn">Reset</button>
+    </div>
+    <div class="result-label" aria-hidden="true">Your Result</div>
+    <div id="output-area">
+      <span id="label"></span>
+      <div id="result" aria-live="polite"></div>
+    </div>
+    <div class="mt-16">
+      <button class="nav-btn" id="age-home-btn">Return to Home Screen</button>
+    </div>
+  </div>
+
+  <!-- BCE / CE Calculator -->
+  <div class="card hidden start-opacity-0" id="bce-card">
+  <h2>BCE/CE Years Calculator</h2>
+
+  <div class="input-row">
+    <label for="yearInput">Year</label>
+    <input
+  id="yearInput"
+  inputmode="numeric"
+  pattern="[0-9]*"
+  placeholder="Enter date (e.g. 607)"
+>
+    <select id="eraInput" aria-label="Era">
+      <option value="BCE">BCE</option>
+      <option value="CE" selected>CE</option>
+    </select>
+  </div>
+
+  <div class="mt-8">
+    <label for="presetYears" class="help-text">Or choose a common date:</label>
+    <select id="presetYears">
+      <option value="">Common dates…</option>
+      <option value="4026" data-era="BCE">4026 BCE - Creation of Adam</option>
+      <option value="2370" data-era="BCE">2370 BCE - Start of the Flood</option>
+      <option value="1513" data-era="BCE">1513 BCE - Exodus from Egypt</option>
+      <option value="607" data-era="BCE">607 BCE - Jerusalem destroyed</option>
+      <option value="537" data-era="BCE">537 BCE - Jews return from exile</option>
+      <option value="455" data-era="BCE">455 BCE - Rebuilding of Jerusalem's walls</option>
+      <option value="29" data-era="CE">29 CE - Jesus’ baptism</option>
+      <option value="1914" data-era="CE">1914 CE - Jesus enthroned as King, beginning of last days</option>
+    </select>
+  </div>
+
+  <div class="mt-12">
+    <button id="calcBtn">Calculate</button>
+    <button
+      id="newDateBtn"
+    >Reset</button>
+  </div>
+
+  <div class="result-label" aria-hidden="true">Date Result</div>
+  <div
+    id="resultBCE"
+    aria-live="polite"
+    class="result-bce"
+  ></div>
+  <div
+    id="ratio"
+    aria-live="polite"
+    class="ratio"
+  ></div>
+
+  <div class="mt-16">
+    <button class="nav-btn" id="bce-home-btn">Return to Home Screen</button>
+  </div>
+</div>
+
+  <!-- About App -->
+  <div class="card hidden start-opacity-0" id="about-card">
+    <h2>About This App</h2>
+    <p>This app was created to provide simple tools that help you visualize time from Jehovah's perspective. The Age calculator shows how a period of time from our perspective compares to Jehovah's view, and the BCE/CE Years calculator helps you relate historical dates to the flow of time.</p>
+
+    <p class="mt-8">All calculations run entirely on your device; no personal data is collected or stored. You can explore, reflect, and share these tools with others as a simple, enjoyable aid for Bible study.</p>
+
+    <div class="mt-16">
+      <button class="nav-btn" id="about-home-btn">Return to Home Screen</button>
+    </div>
+  </div>
+
+  <!-- Info Modal -->
+  <div id="infoModal" role="dialog" aria-modal="true" aria-labelledby="infoTitle">
+    <div class="modal-card">
+      <h3 id="infoTitle">Time Explained</h3>
+      <h4>What Is Time?</h4>
+      <p>What is time? The Bible speaks of time as a reality but gives no definition. For centuries, man has unsuccessfully attempted to define it. Although time is universally accepted, no one can definitively say what it is. Scientists have proposed countless theories. However, the late Albert Einstein once said that “time is the distance between two events.”</p>
+
+      <h4>How Time Flows</h4>
+      <p>Although we cannot define it, time has certain characteristics that we do understand. For example, the so‑called “stream of time” is always moving forward, like a river flowing in one direction. And its “rate of flow” can be measured by events, i.e., the rising of the sun, the orbit of the earth, the ticking of a clock.</p>
+
+      <h4>Jehovah’s View of Time</h4>
+      <p>Our Creator, Jehovah God, lives in an eternity of time, having no beginning. Therefore, His view of time is quite different from our human perspective. The Scriptures tell us that “one day is with Jehovah as a thousand years and a thousand years as one day.” (2 Peter 3:8)</p>
+
+      <h4>Our Changing Perspective</h4>
+      <p>How is that possible? You've likely noticed that time seems to go by much faster as you get older? Think about summer vacation from school when you were young: June through August felt like a lifetime before you had to return to school. But as an older adult, three months seems very short.</p>
+
+      <h4>To Illustrate</h4>
+      <p>Consider “one year” as a unit of time:</p>
+      <p>If you were one year old, and added "one year" to your life, you've doubled your lifespan — a 100% increase.</p>
+      <p>If you were 50 years old, and added "one year" to your life, you've added 2% to your lifespan.</p>
+      <p>If you were 1,000 years old, and added one year to your life, you've only increased your lifespan by 0.1%.</p>
+
+      <h4>The Point</h4>
+      <p>The point is: as we live longer, our perspective of time changes, and a given unit of time appears smaller and less significant. To our Creator, who has always existed, 1,000 years could easily feel like one day.</p>
+
+      <h4>Why It Matters to Us</h4>
+      <p>As we begin to see and understand Jehovah's perspective of time, it becomes easier to understand His way of dealing with us.</p>
+
+      <p>For example, many people wonder: "Why has God allowed human suffering to continue for thousands of years?" "Why is he so slow to act?" Adam was created in 4026&nbsp;BCE; that's over 6,000 years ago. That's a very long time!</p>
+
+      <p>But how long has it been in Jehovah's eyes? Enter "4026&nbsp;BCE" in the BCE/CE Years Calculator to find out. (By the "end of the week" Jehovah will bring a permanent end to pain and suffering.)</p>
+      <p>So, Jehovah is not unsympathetic. He understands that our perspective of time differs from his, yet he is not "slow concerning his promise, as some people consider slowness, but he is patient with you because he does not desire anyone to be destroyed but desires all to attain to repentance." (2 Peter 3:8)</p>
+
+      <button id="modal-close-btn">Close</button>
+    </div>
+  </div>
+
+  <div class="footer-watermark" id="footer-watermark">Jehovah’s View of Time</div>
+
+  <!-- Optional Install button (shown on Chrome/Edge when eligible) -->
+  <button id="install-btn" class="nav-btn hidden" aria-label="Install app">Install App</button>
+
+  <script src="app.js"></script>
+</body>
+</html>
