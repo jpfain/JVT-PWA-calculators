@@ -141,12 +141,14 @@
   text-underline-offset: 2px;
 }
 
-    .input-row {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
+.input-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
 
 .result-label {
   margin-top: 20px;
@@ -163,7 +165,7 @@
 #infoModal {
   position: fixed;
   inset: 0;
-  display: flex;
+  display: none; /* hidden by default so it doesn't share space with cards */
   align-items: center;
   justify-content: center;
   background: rgba(0,0,0,0.35);
@@ -175,6 +177,7 @@
   pointer-events: none;
 }
 #infoModal.show {
+  display: flex; /* only participate in layout when shown */
   opacity: 1;
   visibility: visible;
   transition-delay: 0s;
@@ -201,51 +204,17 @@
   color: #111827;
   text-align: left;
 }
-      align-items: center;
-      justify-content: center;
-      background: rgba(0,0,0,0.35);
-      padding: 18px;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.35s ease, visibility 0s linear 0.35s;
-      z-index: 99999;
-      pointer-events: none;
-    }
-    #infoModal.show {
-      opacity: 1;
-      visibility: visible;
-      transition-delay: 0s;
-      pointer-events: auto;
-    }
-    #infoModal .modal-card {
-      width: 100%;
-      max-width: 540px;
-      background: #fff;
-      border-radius: 16px;
-      padding: 28px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-      transform: scale(0.9);
-      transition: transform 0.25s ease;
-      position: relative;
-      max-height: 80vh;
-      overflow-y: auto;
-    }
-    #infoModal.show .modal-card { transform: scale(1); }
-    #infoModal .modal-card h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
-      font-size: 1.35rem;
-      color: #111827;
-      text-align: left;
-    }
+#infoModal .modal-card h4 {
+  margin-top: 16px;
+  margin-bottom: 0;
+  font-size: 1.12rem;
+  color: #1f2933;
+}
 
-    #infoModal .modal-card h4 {
-      margin-top: 16px;
-      margin-bottom: 0;
-      font-size: 1.12rem;
-      color: #1f2933;
-    }
-    /* Position Close button neatly in top-right of modal */
+/* Position Close button neatly in top-right of modal */
+#infoModal .modal-card {
+  position: relative;
+}
     #infoModal .modal-card {
       position: relative;
     }
