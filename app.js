@@ -83,7 +83,7 @@ function convert() {
   r.style.opacity = '0';
   r.style.transform = 'translateY(8px)';
 
-  // Staggered: label first, then numeric result
+  // Staggered: label first, then numeric result (match BCE/CE card style)
   setTimeout(() => {
     labelEl.style.opacity = '1';
     labelEl.style.transform = 'translateY(0)';
