@@ -339,6 +339,10 @@
 }
 
 .age-error { min-height: 18px; color: #b42318; font-size: 0.9rem; }
+.input-error {
+  border-color: #d32f2f !important;
+  box-shadow: 0 0 0 1px rgba(211,47,47,0.25);
+}
 .result-bce {
   margin-top: 24px;
   font-size: 1.1em;

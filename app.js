@@ -58,16 +58,43 @@ function convert() {
   const calcBtn = document.getElementById('age-calc-btn');
   const resetBtn = document.getElementById('reset-btn');
   const raw = ageInput.value.replace(/,/g, '');
+  const trimmed = raw.trim();
   const age = parseFloat(raw);
+
+  // More specific validation messages
+  if (!trimmed) {
+    err.textContent = 'Please enter your age.';
+    ageInput.setAttribute('aria-invalid', 'true');
+    ageInput.classList.add('input-error');
+    ageInput.focus();
+    return;
+  }
+  if (Number.isNaN(age)) {
+    err.textContent = 'Please enter digits only (0–9).';
+    ageInput.setAttribute('aria-invalid', 'true');
+    ageInput.classList.add('input-error');
+    ageInput.focus();
+    return;
+  }
+  if (age < 0) {
+    err.textContent = 'Age cannot be negative.';
+    ageInput.setAttribute('aria-invalid', 'true');
+    ageInput.classList.add('input-error');
+    ageInput.focus();
+    return;
+  }
+
   const result = computeJehovahAge(age);
   if (!result) {
     err.textContent = 'Please enter a valid non-negative number.';
     ageInput.setAttribute('aria-invalid', 'true');
+    ageInput.classList.add('input-error');
     ageInput.focus();
     return;
   }
   err.textContent = '';
   ageInput.removeAttribute('aria-invalid');
+  ageInput.classList.remove('input-error');
 
   const labelEl = document.getElementById('label');
   const r = document.getElementById('result');
@@ -126,7 +153,12 @@ function switchCards(fromId, toId) {
   setTimeout(() => {
     from.classList.add('hidden');
     to.classList.remove('hidden');
-    setTimeout(() => { to.style.opacity = '1'; }, 50);
+    setTimeout(() => {
+      to.style.opacity = '1';
+      // Move focus to the new card's heading for accessibility
+      const heading = to.querySelector('h2[tabindex="-1"]');
+      if (heading && typeof heading.focus === 'function') heading.focus();
+    }, 50);
   }, 400);
 }
 
@@ -140,13 +172,24 @@ function openAge() {
 
 // BCE/CE Calculator
 function calculateYears() {
-  const yvRaw = document.getElementById('yearInput').value, era = document.getElementById('eraInput').value;
+  const yearInput = document.getElementById('yearInput');
+  const yvRaw = yearInput.value, era = document.getElementById('eraInput').value;
   const yv = yvRaw.replace(/,/g, '');
   const resultEl = document.getElementById('resultBCE'), ratioEl = document.getElementById('ratio');
   const calcBtn = document.getElementById('calcBtn'), newDateBtn = document.getElementById('newDateBtn');
   const year = parseInt(yv,10);
-  if (isNaN(year)) { resultEl.textContent="Please enter a valid year."; ratioEl.textContent=""; return; }
-  if (year < 1) { resultEl.textContent = `Please enter a year of 1 or greater for ${era}.`; ratioEl.textContent = ""; return; }
+  if (isNaN(year)) {
+    resultEl.textContent="Please enter a valid year.";
+    ratioEl.textContent="";
+    if (yearInput) yearInput.classList.add('input-error');
+    return;
+  }
+  if (year < 1) {
+    resultEl.textContent = `Please enter a year of 1 or greater for ${era}.`;
+    ratioEl.textContent = "";
+    if (yearInput) yearInput.classList.add('input-error');
+    return;
+  }
   const data = computeBceCeDiff(year, era);
   const current = data.current;
   const numericYear = data.numericYear;
@@ -259,6 +302,16 @@ window.addEventListener('DOMContentLoaded', () => {
   } catch {}
 
   on(byId('age-calc-btn'), 'click', (e) => { e.preventDefault(); convert(); });
+  // Clear age errors as the user types
+  const ageInput = byId('age');
+  if (ageInput) {
+    ageInput.addEventListener('input', () => {
+      const err = byId('age-error');
+      if (err) err.textContent = '';
+      ageInput.removeAttribute('aria-invalid');
+      ageInput.classList.remove('input-error');
+    });
+  }
   on(byId('reset-btn'), 'click', (e) => { e.preventDefault(); resetForm(); });
   on(byId('home-age-btn'), 'click', (e) => { e.preventDefault(); switchCards('home-card', 'age-card'); });
   on(byId('home-bce-btn'), 'click', (e) => { e.preventDefault(); switchCards('home-card', 'bce-card'); });
@@ -330,6 +383,14 @@ window.addEventListener('DOMContentLoaded', () => {
       if (eraInput) eraInput.value = era;
       // Immediately perform the calculation so the user sees a result
       calculateYears();
+    });
+  }
+
+  // Clear BCE/CE input error state on change
+  const yearInputField = byId('yearInput');
+  if (yearInputField) {
+    yearInputField.addEventListener('input', () => {
+      yearInputField.classList.remove('input-error');
     });
   }
 
