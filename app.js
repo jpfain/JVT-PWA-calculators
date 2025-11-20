@@ -283,6 +283,16 @@ try {
   document.getElementById('yearInput').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/,/g, ''); });
 } catch {}
 
+// Gently prevent double-tap zoom on touch devices while allowing normal taps and pinch-zoom
+let __lastTouchEnd = 0;
+document.addEventListener('touchend', (e) => {
+  const now = Date.now();
+  if (now - __lastTouchEnd <= 300) {
+    e.preventDefault();
+  }
+  __lastTouchEnd = now;
+}, { passive: false });
+
 // Service Worker
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
 
