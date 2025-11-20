@@ -87,15 +87,18 @@
       justify-content: center;
     }
 
+    #label,
+    #result {
+      transition: opacity 300ms ease, transform 300ms ease;
+    }
+
     #result {
       font-size: 1.25rem;
       font-weight: 700;
       color: #0b1220;
       opacity: 0;
       transform: translateY(6px);
-      transition: opacity 300ms, transform 300ms;
     }
-    #result.show { opacity: 1; transform: translateY(0); }
 
     .footer-watermark {
       position: fixed;
@@ -144,10 +147,6 @@
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
-      margin-top: 6px;
-    }
-    .input-row input { flex: 1 1 60%; max-width: 220px; }
-    .input-row select { font-size: 1.1rem; padding: 8px 10px; }
 
 .result-label {
   margin-top: 20px;
@@ -155,13 +154,53 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #6b7280;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-    /* Modal */
-    #infoModal {
-      position: fixed;
-      inset: 0;
-      display: flex;
+/* Modal */
+#infoModal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.35);
+  padding: 18px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+  z-index: 99999;
+  pointer-events: none;
+}
+#infoModal.show {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+  pointer-events: auto;
+}
+#infoModal .modal-card {
+  width: 100%;
+  max-width: 540px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  transform: scale(0.9);
+  transition: transform 0.25s ease;
+  position: relative;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+#infoModal.show .modal-card { transform: scale(1); }
+#infoModal .modal-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.35rem;
+  color: #111827;
+  text-align: left;
+}
       align-items: center;
       justify-content: center;
       background: rgba(0,0,0,0.35);

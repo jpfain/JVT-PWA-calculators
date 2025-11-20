@@ -68,10 +68,30 @@ function convert() {
   }
   err.textContent = '';
   ageInput.removeAttribute('aria-invalid');
-  document.getElementById('label').innerText = "Your age in Jehovah’s eyes:";
+
+  const labelEl = document.getElementById('label');
   const r = document.getElementById('result');
-  r.classList.remove('show'); r.textContent = result.output;
-  setTimeout(() => r.classList.add('show'), 30);
+
+  if (!labelEl || !r) return;
+
+  labelEl.innerText = "Your age in Jehovah’s eyes:";
+  r.textContent = result.output;
+
+  // Start from a faded, slightly lowered state
+  labelEl.style.opacity = '0';
+  labelEl.style.transform = 'translateY(8px)';
+  r.style.opacity = '0';
+  r.style.transform = 'translateY(8px)';
+
+  // Staggered: label first, then numeric result
+  setTimeout(() => {
+    labelEl.style.opacity = '1';
+    labelEl.style.transform = 'translateY(0)';
+  }, 50);
+  setTimeout(() => {
+    r.style.opacity = '1';
+    r.style.transform = 'translateY(0)';
+  }, 250);
   if (resetBtn) resetBtn.style.display = 'inline-block';
   if (calcBtn) calcBtn.style.display = 'none';
 }
@@ -141,9 +161,34 @@ function calculateYears() {
   ratioEl.innerHTML = diff >= 0
     ? `In Jehovah’s view, that’s <strong>${formatted}</strong>.`
     : `In Jehovah’s view, that’s in <strong>${formatted}</strong>.`;
-  resultEl.style.opacity='0'; ratioEl.style.opacity='0'; resultEl.style.transform='translateY(8px)'; ratioEl.style.transform='translateY(8px)';
-  setTimeout(()=>{resultEl.style.opacity='1';resultEl.style.transform='translateY(0)';},50);
-  setTimeout(()=>{ratioEl.style.opacity='1';ratioEl.style.transform='translateY(0)';},350);
+
+  const labelEl = document.querySelector('#bce-card .result-label');
+
+  // Reset starting state for staggered animation
+  if (labelEl) {
+    labelEl.style.opacity = '0';
+    labelEl.style.transform = 'translateY(8px)';
+  }
+  resultEl.style.opacity='0';
+  resultEl.style.transform='translateY(8px)';
+  ratioEl.style.opacity='0';
+  ratioEl.style.transform='translateY(8px)';
+
+  // Staggered: label first, then main result, then ratio line
+  if (labelEl) {
+    setTimeout(() => {
+      labelEl.style.opacity = '1';
+      labelEl.style.transform = 'translateY(0)';
+    }, 50);
+  }
+  setTimeout(()=>{
+    resultEl.style.opacity='1';
+    resultEl.style.transform='translateY(0)';
+  },250);
+  setTimeout(()=>{
+    ratioEl.style.opacity='1';
+    ratioEl.style.transform='translateY(0)';
+  },450);
   calcBtn.style.display='none'; newDateBtn.style.display='inline-block';
 }
 function resetFormBCE() {
