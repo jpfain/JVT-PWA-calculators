@@ -278,6 +278,39 @@ function closeModal() {
   if (__lastFocused && typeof __lastFocused.focus === 'function') { __lastFocused.focus(); }
 }
 
+function openArticleModal1() {
+  const modal = document.getElementById('articleModal1');
+  if (!modal) return;
+  __lastFocused = document.activeElement;
+  modal.classList.add('show');
+  document.body.style.overflow = 'hidden';
+  const focusables = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+  const closeBtn = modal.querySelector('#article-close-btn-1');
+  const first = focusables[0];
+  const last = focusables[focusables.length - 1];
+  if (closeBtn) closeBtn.focus();
+  else if (first) first.focus();
+  __modalKeyHandler = (e) => {
+    if (e.key === 'Escape') { closeArticleModal1(); }
+    if (e.key === 'Tab') {
+      if (focusables.length === 0) { e.preventDefault(); return; }
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  };
+  document.addEventListener('keydown', __modalKeyHandler);
+  modal.addEventListener('click', (ev) => { if (ev.target === modal) closeArticleModal1(); }, { once: true });
+}
+
+function closeArticleModal1() {
+  const modal = document.getElementById('articleModal1');
+  if (!modal) return;
+  modal.classList.remove('show');
+  document.body.style.overflow = '';
+  if (__modalKeyHandler) { document.removeEventListener('keydown', __modalKeyHandler); __modalKeyHandler = null; }
+  if (__lastFocused && typeof __lastFocused.focus === 'function') { __lastFocused.focus(); }
+}
+
 // Keyboard shortcuts and input sanitation
 try {
   document.getElementById('age').addEventListener('keydown', (e) => { if (e.key === 'Enter') convert(); });
@@ -336,6 +369,10 @@ window.addEventListener('DOMContentLoaded', () => {
   on(byId('newDateBtn'), 'click', (e) => { e.preventDefault(); resetFormBCE(); });
   on(byId('home-info-btn'), 'click', (e) => { e.preventDefault(); openModal(); });
   on(byId('modal-close-btn'), 'click', (e) => { e.preventDefault(); closeModal(); });
+
+  // Article summary modal (from link in Time Explained)
+  on(byId('open-article-modal-1'), 'click', (e) => { e.preventDefault(); openArticleModal1(); });
+  on(byId('article-close-btn-1'), 'click', (e) => { e.preventDefault(); closeArticleModal1(); });
 
   // Share this app (native share with clipboard fallback)
   const shareBtn = byId('home-share-btn');
