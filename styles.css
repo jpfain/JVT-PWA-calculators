@@ -255,6 +255,17 @@
   background: #005fcc;
 }
 
+/* Override for inline article link-button inside modal so it does NOT use the absolute Close-button positioning */
+#infoModal .modal-card .link-button {
+  position: static;
+  top: auto;
+  right: auto;
+  padding: 0;
+  margin: 0;
+  background: none;
+  color: #2563eb;
+}
+
 
     @media (prefers-color-scheme: dark) {
       body { background: linear-gradient(135deg, #101214, #171a1d); color: #e6eef9; }
