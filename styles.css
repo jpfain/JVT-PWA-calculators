@@ -204,7 +204,8 @@
   max-width: 540px;
   background: #fff;
   border-radius: 16px;
-  padding: 28px;
+  /* Extra top padding so the Close button has its own space above the title */
+  padding: 40px 28px 28px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
   transform: scale(0.9);
   transition: transform 0.25s ease;
