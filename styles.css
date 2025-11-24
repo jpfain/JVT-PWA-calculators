@@ -222,6 +222,8 @@
   font-size: 1.35rem;
   color: #111827;
   text-align: left;
+  /* Leave space on the right so text does not sit under the Close button */
+  padding-right: 72px;
 }
 #infoModal .modal-card h4,
 #articleModal1 .modal-card h4 {
