@@ -247,11 +247,26 @@ function resetFormBCE() {
 // Modal
 let __lastFocused = null;
 let __modalKeyHandler = null;
+let __scrollLocked = false;
+
+function lockScroll() {
+  if (__scrollLocked) return;
+  __scrollLocked = true;
+  if (document.documentElement) document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
+}
+
+function unlockScroll() {
+  if (!__scrollLocked) return;
+  __scrollLocked = false;
+  if (document.documentElement) document.documentElement.style.overflow = '';
+  document.body.style.overflow = '';
+}
 function openModal() {
   const modal = document.getElementById('infoModal');
   __lastFocused = document.activeElement;
   modal.classList.add('show');
-  document.body.style.overflow='hidden';
+  lockScroll();
   // Ensure the modal content starts scrolled to the top each time
   const modalCard = modal.querySelector('.modal-card');
   if (modalCard) modalCard.scrollTop = 0;
@@ -276,7 +291,7 @@ function openModal() {
 function closeModal() {
   const modal = document.getElementById('infoModal');
   modal.classList.remove('show');
-  document.body.style.overflow='';
+  unlockScroll();
   if (__modalKeyHandler) { document.removeEventListener('keydown', __modalKeyHandler); __modalKeyHandler = null; }
   if (__lastFocused && typeof __lastFocused.focus === 'function') { __lastFocused.focus(); }
 }
@@ -286,6 +301,7 @@ function openArticleModal1() {
   if (!modal) return;
   __lastFocused = document.activeElement;
   modal.classList.add('show');
+  lockScroll();
   const focusables = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
   const closeBtn = modal.querySelector('#article-close-btn-1');
   const first = focusables[0];
@@ -308,6 +324,14 @@ function closeArticleModal1() {
   const modal = document.getElementById('articleModal1');
   if (!modal) return;
   modal.classList.remove('show');
+  unlockScroll();
+  // When returning from the article summary to the main info modal,
+  // ensure the main modal content is scrolled back to the top.
+  const mainInfoModal = document.getElementById('infoModal');
+  if (mainInfoModal) {
+    const mainCard = mainInfoModal.querySelector('.modal-card');
+    if (mainCard) mainCard.scrollTop = 0;
+  }
   if (__modalKeyHandler) { document.removeEventListener('keydown', __modalKeyHandler); __modalKeyHandler = null; }
   if (__lastFocused && typeof __lastFocused.focus === 'function') { __lastFocused.focus(); }
 }
