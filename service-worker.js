@@ -1,7 +1,9 @@
-const CACHE_NAME = "jvt-cache-v4";
+const CACHE_NAME = "jvt-cache-v5";
 const CORE_ASSETS = [
   "./",
   "./index.html",
+  "./styles.css",
+  "./app.js",
   "./manifest.json",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
