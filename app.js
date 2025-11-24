@@ -301,7 +301,6 @@ function openArticleModal1() {
   if (!modal) return;
   __lastFocused = document.activeElement;
   modal.classList.add('show');
-  lockScroll();
   const focusables = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
   const closeBtn = modal.querySelector('#article-close-btn-1');
   const first = focusables[0];
@@ -324,7 +323,6 @@ function closeArticleModal1() {
   const modal = document.getElementById('articleModal1');
   if (!modal) return;
   modal.classList.remove('show');
-  unlockScroll();
   // When returning from the article summary to the main info modal,
   // ensure the main modal content is scrolled back to the top.
   const mainInfoModal = document.getElementById('infoModal');
@@ -332,7 +330,31 @@ function closeArticleModal1() {
     const mainCard = mainInfoModal.querySelector('.modal-card');
     if (mainCard) mainCard.scrollTop = 0;
   }
-  if (__modalKeyHandler) { document.removeEventListener('keydown', __modalKeyHandler); __modalKeyHandler = null; }
+  // Remove the article modal's key handler and restore a focus trap on the main info modal
+  if (__modalKeyHandler) {
+    document.removeEventListener('keydown', __modalKeyHandler);
+    __modalKeyHandler = null;
+  }
+
+  if (mainInfoModal) {
+    const focusables = mainInfoModal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    const closeBtn = mainInfoModal.querySelector('#modal-close-btn');
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    __modalKeyHandler = (e) => {
+      if (e.key === 'Escape') { closeModal(); }
+      if (e.key === 'Tab') {
+        if (focusables.length === 0) { e.preventDefault(); return; }
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    };
+    document.addEventListener('keydown', __modalKeyHandler);
+    // Ensure a sensible focus target remains in the main modal
+    if (closeBtn && typeof closeBtn.focus === 'function') {
+      closeBtn.focus();
+    }
+  }
   if (__lastFocused && typeof __lastFocused.focus === 'function') { __lastFocused.focus(); }
 }
 
