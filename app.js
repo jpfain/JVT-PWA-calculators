@@ -286,7 +286,6 @@ function openArticleModal1() {
   if (!modal) return;
   __lastFocused = document.activeElement;
   modal.classList.add('show');
-  document.body.style.overflow = 'hidden';
   const focusables = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
   const closeBtn = modal.querySelector('#article-close-btn-1');
   const first = focusables[0];
@@ -309,7 +308,6 @@ function closeArticleModal1() {
   const modal = document.getElementById('articleModal1');
   if (!modal) return;
   modal.classList.remove('show');
-  document.body.style.overflow = '';
   if (__modalKeyHandler) { document.removeEventListener('keydown', __modalKeyHandler); __modalKeyHandler = null; }
   if (__lastFocused && typeof __lastFocused.focus === 'function') { __lastFocused.focus(); }
 }
