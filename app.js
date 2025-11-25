@@ -101,6 +101,13 @@ function convert() {
 
   if (!labelEl || !r) return;
 
+  // Update age bar visualization (cap at 1,000 years)
+  const ageBarFill = document.getElementById('age-bar-fill');
+  if (ageBarFill) {
+    const ratio = Math.max(0, Math.min(age / 1000, 1));
+    ageBarFill.style.width = (ratio * 100).toFixed(2) + '%';
+  }
+
   labelEl.innerText = "Your age in Jehovah’s eyes:";
   r.textContent = result.output;
 
@@ -131,6 +138,8 @@ function resetForm() {
   if (ageInput) ageInput.value = '';
   if (labelEl) labelEl.innerText = '';
   if (resultEl) resultEl.innerText = '';
+  const ageBarFill = document.getElementById('age-bar-fill');
+  if (ageBarFill) ageBarFill.style.width = '0%';
   if (resetBtn) resetBtn.style.display = 'none';
   if (calcBtn) calcBtn.style.display = 'inline-block';
 }
