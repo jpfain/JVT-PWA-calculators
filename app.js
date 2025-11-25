@@ -161,6 +161,11 @@ function switchCards(fromId, toId) {
         if (ageInput && typeof ageInput.focus === 'function') {
           ageInput.focus();
         }
+      } else if (toId === 'bce-card') {
+        const yearInput = document.getElementById('yearInput');
+        if (yearInput && typeof yearInput.focus === 'function') {
+          yearInput.focus();
+        }
       } else {
         // Default: focus the new card's heading for accessibility
         const heading = to.querySelector('h2[tabindex="-1"]');
@@ -243,13 +248,19 @@ function calculateYears() {
   calcBtn.style.display='none'; newDateBtn.style.display='inline-block';
 }
 function resetFormBCE() {
-  document.getElementById('yearInput').value='';
+  const yearInput = document.getElementById('yearInput');
+  if (yearInput) yearInput.value='';
   document.getElementById('resultBCE').textContent='';
   document.getElementById('ratio').textContent='';
   const preset = document.getElementById('presetYears');
   if (preset) preset.selectedIndex = 0;
   document.getElementById('calcBtn').style.display='inline-block';
   document.getElementById('newDateBtn').style.display='none';
+  // After reset, keep focus on the Enter date input for quick re-entry
+  if (yearInput && typeof yearInput.focus === 'function') {
+    yearInput.classList.remove('input-error');
+    yearInput.focus();
+  }
 }
 
 // Modal
