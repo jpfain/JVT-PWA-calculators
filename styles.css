@@ -385,6 +385,122 @@
 }
 
 .age-error { min-height: 18px; color: #b42318; font-size: 0.9rem; }
+
+/* Time Compression Visualization */
+.time-compression {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #4b5563;
+  display: none; /* Initially hidden */
+}
+
+.time-scale {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  position: relative;
+  padding: 0 10px;
+}
+
+.time-marker {
+  position: relative;
+  font-size: 0.7rem;
+  color: #6b7280;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  width: 0;
+}
+
+.time-marker::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 8px;
+  background-color: #d1d5db;
+}
+
+.time-marker-child { left: 0%; }
+.time-marker-teen { left: 25%; }
+.time-marker-adult { left: 50%; }
+.time-marker-senior { left: 75%; }
+.time-marker-legend { 
+  left: 100%; 
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+.time-visualization {
+  display: flex;
+  height: 40px;
+  background: #f3f4f6;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  margin: 0 10px;
+}
+
+.time-segment {
+  height: 100%;
+  position: relative;
+  transition: all 0.5s ease-out;
+}
+
+.time-segment::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.time-segment:last-child::after {
+  display: none;
+}
+
+.time-segment-child { 
+  flex: 4; 
+  background: linear-gradient(90deg, #93c5fd, #60a5fa);
+  opacity: 0.9;
+}
+.time-segment-teen { 
+  flex: 3; 
+  background: linear-gradient(90deg, #60a5fa, #3b82f6);
+  opacity: 0.8;
+}
+.time-segment-adult { 
+  flex: 2; 
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  opacity: 0.7;
+}
+.time-segment-senior { 
+  flex: 1; 
+  background: linear-gradient(90deg, #2563eb, #1d4ed8);
+  opacity: 0.6;
+}
+
+.time-caption {
+  margin-top: 12px;
+  font-size: 0.8rem;
+  color: #4b5563;
+  font-style: italic;
+  min-height: 2.5em;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.time-visualization:hover {
+  animation: pulse 2s infinite;
+}
 .input-error {
   border-color: #d32f2f !important;
   box-shadow: 0 0 0 1px rgba(211,47,47,0.25);
