@@ -104,6 +104,8 @@ function convert() {
   labelEl.innerText = "Your age in Jehovah's eyes:";
   r.textContent = result.output;
 
+  updateTimeCompression(age);
+
   // Start from a faded, slightly lowered state
   labelEl.style.opacity = '0';
   labelEl.style.transform = 'translateY(8px)';
@@ -133,6 +135,68 @@ function resetForm() {
   if (resultEl) resultEl.innerText = '';
   if (resetBtn) resetBtn.style.display = 'none';
   if (calcBtn) calcBtn.style.display = 'inline-block';
+
+  const timeCompression = document.getElementById('time-compression');
+  if (timeCompression) {
+    timeCompression.style.display = 'none';
+    const segments = document.querySelectorAll('.time-segment');
+    segments.forEach(segment => {
+      segment.style.flex = '0';
+    });
+  }
+
+  const timeCaption = document.getElementById('time-caption');
+  if (timeCaption) timeCaption.textContent = '';
+}
+
+function updateTimeCompression(age) {
+  const timeCompression = document.getElementById('time-compression');
+  const timeCaption = document.getElementById('time-caption');
+
+  if (!timeCompression || !timeCaption) return;
+
+  timeCompression.style.display = 'block';
+
+  let perceptionRatio;
+  let timeDescription;
+
+  if (age <= 10) {
+    perceptionRatio = 1;
+    timeDescription = "At this young age, time feels expansive. One year is a significant portion of your life experience.";
+  } else if (age <= 20) {
+    perceptionRatio = 0.5;
+    timeDescription = "As you grow, each year becomes a smaller fraction of your total life experience.";
+  } else if (age <= 40) {
+    perceptionRatio = 0.25;
+    timeDescription = "Time seems to move faster now. Each year feels shorter compared to your childhood years.";
+  } else if (age <= 60) {
+    perceptionRatio = 0.125;
+    timeDescription = "The years seem to pass more quickly now, as each one becomes a smaller part of your life's journey.";
+  } else {
+    perceptionRatio = 0.0625;
+    timeDescription = "From Jehovah's eternal perspective, even a long human life is but a brief moment.";
+  }
+
+  timeCaption.textContent = timeDescription;
+
+  const segments = document.querySelectorAll('.time-segment');
+  segments.forEach(segment => {
+    segment.style.flex = '0 0 0';
+    segment.style.transition = 'flex 1s ease-out';
+  });
+
+  setTimeout(() => {
+    const child = document.querySelector('.time-segment-child');
+    const teen = document.querySelector('.time-segment-teen');
+    const adult = document.querySelector('.time-segment-adult');
+    const senior = document.querySelector('.time-segment-senior');
+    if (!child || !teen || !adult || !senior) return;
+
+    child.style.flex = perceptionRatio * 4;
+    teen.style.flex = perceptionRatio * 3;
+    adult.style.flex = perceptionRatio * 2;
+    senior.style.flex = perceptionRatio * 1;
+  }, 50);
 }
 
 // Generic card switching

@@ -79,6 +79,23 @@
     <div id="output-area">
       <span id="label"></span>
       <div id="result" aria-live="polite"></div>
+
+      <div id="time-compression" class="time-compression" aria-hidden="true">
+        <div class="time-scale">
+          <div class="time-marker time-marker-child">Age 5</div>
+          <div class="time-marker time-marker-teen">Age 15</div>
+          <div class="time-marker time-marker-adult">Age 30</div>
+          <div class="time-marker time-marker-senior">Age 60</div>
+          <div class="time-marker time-marker-legend">Jehovah's View</div>
+        </div>
+        <div class="time-visualization">
+          <div class="time-segment time-segment-child"></div>
+          <div class="time-segment time-segment-teen"></div>
+          <div class="time-segment time-segment-adult"></div>
+          <div class="time-segment time-segment-senior"></div>
+        </div>
+        <div class="time-caption" id="time-caption"></div>
+      </div>
     </div>
     <div class="mt-16">
       <button class="nav-btn" id="age-home-btn">Return to Home Screen</button>
