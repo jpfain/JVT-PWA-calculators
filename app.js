@@ -147,7 +147,7 @@ function resetForm() {
     [h, m, s].forEach(hand => {
       if (hand) {
         hand.style.transition = 'none';
-        hand.style.transform = 'rotate(0deg)';
+        hand.style.transform = 'rotate(-90deg)';
       }
     });
     // Force reflow, then restore transition for next animation
@@ -169,14 +169,14 @@ function updateAgeClock(result) {
   const S = result.S || 0;
 
   // Compute target angles
-  const hourAngle = ((H % 12) + M / 60) * 30; // 360 / 12
-  const minuteAngle = (M + S / 60) * 6;        // 360 / 60
-  const secondAngle = S * 6;                   // 360 / 60
+  const hourAngle = ((H % 12) + M / 60) * 30 - 90; // 360 / 12, offset so 0 is at 12 o'clock
+  const minuteAngle = (M + S / 60) * 6 - 90;        // 360 / 60, offset
+  const secondAngle = S * 6 - 90;                   // 360 / 60, offset
 
   // Start from 12:00 for a smooth single sweep
   [hourHand, minuteHand, secondHand].forEach(hand => {
     hand.style.transition = 'none';
-    hand.style.transform = 'rotate(0deg)';
+    hand.style.transform = 'rotate(-90deg)';
   });
 
   // Force reflow so the browser applies the initial state
