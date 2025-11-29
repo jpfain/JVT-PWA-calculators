@@ -377,56 +377,6 @@
   transition: opacity .4s, transform .4s;
 }
 
-/* Digital stopwatch for Age result */
-
-.age-stopwatch {
-  margin-top: 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.stopwatch-display {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 1.35rem;
-  letter-spacing: 0.18em;
-  background: #111827;
-  color: #e5e7eb;
-  padding: 8px 14px;
-  border-radius: 999px;
-  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.18);
-  opacity: 0.6;
-  transition: opacity 0.4s ease, box-shadow 0.4s ease;
-}
-
-.stopwatch-display.stopwatch-active {
-  opacity: 1;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.3);
-}
-
-.stopwatch-start-btn {
-  margin-bottom: 6px;
-  padding: 4px 10px;
-  font-size: 0.78rem;
-  border-radius: 999px;
-  background: #e5e7eb;
-  color: #111827;
-  border: 1px solid #d1d5db;
-  box-shadow: none;
-  min-width: 0;
-}
-
-.stopwatch-start-btn:hover {
-  background: #d1d5db;
-}
-
-.stopwatch-caption {
-  margin-top: 6px;
-  font-size: 0.78rem;
-  color: #6b7280;
-}
-
-
 #output-area {
   margin-top: 12px;
   padding-top: 10px;
