@@ -292,7 +292,7 @@
 
     @media (prefers-color-scheme: dark) {
       body { background: linear-gradient(135deg, #101214, #171a1d); color: #e6eef9; }
-      .card { background: #151718; }
+      .card { background: #151718; padding-bottom: 38px; }
       input { background: #1f2326; border: 1px solid #2b2f33; color: #e6eef9; }
       #infoModal .modal-card { background: #171a1d; color: #e6eef9; }
       .footer-watermark { color: rgba(230,238,249,0.75); }
@@ -417,10 +417,17 @@
   transition: opacity .4s, transform .4s;
 }
 
+.result-note {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
 /* Focus-visible polish */
 :focus { outline: none; }
 :focus-visible {
-  outline: 3px solid rgba(0,123,255,0.45);
+  outline: 2px solid rgba(0,123,255,0.6);
   outline-offset: 2px;
   border-radius: 10px;
 }
