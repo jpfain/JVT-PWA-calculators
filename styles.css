@@ -240,7 +240,7 @@
   margin-top: 0;
   margin-bottom: 10px;
   font-size: 1.35rem;
-  color: #111827;
+  color: #374151;
   text-align: left;
   /* Leave space on the right so text does not sit under the Close button */
   padding-right: 72px;
@@ -250,7 +250,14 @@
   margin-top: 16px;
   margin-bottom: 0;
   font-size: 1.12rem;
-  color: #1f2933;
+  color: #4b5563;
+}
+
+/* Modal paragraph text styling */
+#infoModal .modal-card p,
+#articleModal1 .modal-card p {
+  color: #4b5563;
+  line-height: 1.6;
 }
 
 /* Position Close button neatly in top-right of modal */
@@ -418,8 +425,8 @@
 }
 
 .result-note {
-  font-size: 0.85rem;
-  color: #6b7280;
+  font-size: 0.65rem;
+  color: #9ca3af;
   margin-top: 8px;
   line-height: 1.4;
 }
