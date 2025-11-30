@@ -110,6 +110,12 @@ function convert() {
   r.style.opacity = '0';
   r.style.transform = 'translateY(8px)';
 
+  // Retrigger a brief "flare" animation on the numeric result
+  r.classList.remove('age-result-flare');
+  // Force reflow so the animation can restart
+  void r.offsetWidth;
+  r.classList.add('age-result-flare');
+
   // Staggered: label first, then numeric result (match BCE/CE card style)
   setTimeout(() => {
     labelEl.style.opacity = '1';
