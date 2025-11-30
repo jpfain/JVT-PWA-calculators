@@ -242,16 +242,16 @@ function calculateYears() {
     setTimeout(() => {
       labelEl.style.opacity = '1';
       labelEl.style.transform = 'translateY(0)';
-    }, 50);
+    }, 1000);
   }
   setTimeout(()=>{
     resultEl.style.opacity='1';
     resultEl.style.transform='translateY(0)';
-  },250);
+  },1500);
   setTimeout(()=>{
     ratioEl.style.opacity='1';
     ratioEl.style.transform='translateY(0)';
-  },450);
+  },1850);
   calcBtn.style.display='none'; newDateBtn.style.display='inline-block';
 }
 function resetFormBCE() {
