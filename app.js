@@ -300,7 +300,6 @@ function openModal() {
   const closeBtn = modal.querySelector('#modal-close-btn');
   const first = focusables[0];
   const last = focusables[focusables.length - 1];
-  // Prefer focusing the Close button so links do not show a focus ring first
   if (closeBtn) closeBtn.focus();
   else if (first) first.focus();
   __modalKeyHandler = (e) => {
@@ -313,6 +312,11 @@ function openModal() {
   };
   document.addEventListener('keydown', __modalKeyHandler);
   modal.addEventListener('click', (ev) => { if (ev.target === modal) closeModal(); }, { once: true });
+
+  // Prevent background interactions
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.pointerEvents = 'none';
+  modal.style.pointerEvents = 'auto';
 }
 function closeModal() {
   const modal = document.getElementById('infoModal');
@@ -320,6 +324,11 @@ function closeModal() {
   unlockScroll();
   if (__modalKeyHandler) { document.removeEventListener('keydown', __modalKeyHandler); __modalKeyHandler = null; }
   if (__lastFocused && typeof __lastFocused.focus === 'function') { __lastFocused.focus(); }
+  
+  // Restore background interactions
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.pointerEvents = '';
+  modal.style.pointerEvents = '';
 }
 
 function openArticleModal1() {
@@ -343,6 +352,11 @@ function openArticleModal1() {
   };
   document.addEventListener('keydown', __modalKeyHandler);
   modal.addEventListener('click', (ev) => { if (ev.target === modal) closeArticleModal1(); }, { once: true });
+  
+  // Prevent background interactions
+  modal.setAttribute('aria-hidden', 'false');
+  document.body.style.pointerEvents = 'none';
+  modal.style.pointerEvents = 'auto';
 }
 
 function closeArticleModal1() {
@@ -376,10 +390,14 @@ function closeArticleModal1() {
       }
     };
     document.addEventListener('keydown', __modalKeyHandler);
-    // Ensure a sensible focus target remains in the main modal
-    if (closeBtn && typeof closeBtn.focus === 'function') {
-      closeBtn.focus();
-    }
+    mainInfoModal.addEventListener('click', (ev) => { if (ev.target === mainInfoModal) closeModal(); }, { once: true });
+    
+    // Re-apply background interaction prevention for main modal
+    document.body.style.pointerEvents = 'none';
+    mainInfoModal.style.pointerEvents = 'auto';
+  }
+  if (closeBtn && typeof closeBtn.focus === 'function') {
+    closeBtn.focus();
   }
   if (__lastFocused && typeof __lastFocused.focus === 'function') { __lastFocused.focus(); }
 }
