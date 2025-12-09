@@ -163,22 +163,33 @@ function switchCards(fromId, toId) {
     setTimeout(() => {
       to.style.opacity = '1';
       // Move focus appropriately when switching cards
-      if (toId === 'age-card') {
-        const ageInput = document.getElementById('age');
-        if (ageInput && typeof ageInput.focus === 'function') {
-          ageInput.focus();
+      // Use requestAnimationFrame to ensure DOM is ready
+      requestAnimationFrame(() => {
+        if (toId === 'age-card') {
+          const ageInput = document.getElementById('age');
+          if (ageInput && typeof ageInput.focus === 'function') {
+            // Clear any existing value and ensure input is ready
+            ageInput.value = '';
+            ageInput.focus();
+            // Ensure cursor is at the end
+            ageInput.setSelectionRange(ageInput.value.length, ageInput.value.length);
+          }
+        } else if (toId === 'bce-card') {
+          const yearInput = document.getElementById('yearInput');
+          if (yearInput && typeof yearInput.focus === 'function') {
+            // Clear any existing value and ensure input is ready
+            yearInput.value = '';
+            yearInput.focus();
+            // Ensure cursor is at the end
+            yearInput.setSelectionRange(yearInput.value.length, yearInput.value.length);
+          }
+        } else {
+          // Default: focus the new card's heading for accessibility
+          const heading = to.querySelector('h2[tabindex="-1"]');
+          if (heading && typeof heading.focus === 'function') heading.focus();
         }
-      } else if (toId === 'bce-card') {
-        const yearInput = document.getElementById('yearInput');
-        if (yearInput && typeof yearInput.focus === 'function') {
-          yearInput.focus();
-        }
-      } else {
-        // Default: focus the new card's heading for accessibility
-        const heading = to.querySelector('h2[tabindex="-1"]');
-        if (heading && typeof heading.focus === 'function') heading.focus();
-      }
-    }, 50);
+      });
+    }, 100);
   }, 400);
 }
 
